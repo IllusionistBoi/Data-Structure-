@@ -1,115 +1,270 @@
-package projectCode20280;
-
 import java.util.Iterator;
 
-public class SinglyLinkedList<E> implements List<E> {
+/**
+ * Program written by Ronit Dahiya, 18204009
+ * Implemented Singly Linked list using List ADT and
+ * with an iterator too.
+ **/
+public class SinglyLinkedList<E> implements projectCode20280.List<E> {
 
+	// Private variables
+	// Head of the linked list;
 	private Node<E> head;
+	// Size of the linked list;
 	private int size;
 
-	//Constructor For Head & Size
-	public SinglyLinkedList(Node<E> head, int size) {
-		head = head;
-		this.size = size;
+	// Constructor
+	public SinglyLinkedList() {
+		this.head = null;
+		this.size = 0;
 	}
 
-	private class Node<E> {
-		private E element;
-		private Node<E> next;
+	// Node Class which represents a node in linked list
+	private class Node<K> {
+		private K element;
+		private Node<K> next;
 
-		public Node (E e, Node<E> n) {
+		// Constructor;
+		public Node (K e, Node<K> n) {
 			element = e;
 			next = n;
 		}
 
 		//Accessor Methods
-		public E getElement() { return element; }
-		public Node<E> getNext() { return next; }
+		public K getElement() { return element; }
+		public Node<K> getNext() { return next; }
 
 		//Modifier Methods
-		public void setNext(Node<E> n) { next = n; }
+		public void setNext(Node<K> n) { next = n; }
 
 	}
 
+	/** Method to check if linked list is empty
+	 *
+	 * @return boolean
+	 */
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return size == 0;
 	}
 
+	/** Method to return element at index i in linked list.
+	 *
+	 * @param i - index (starting from index 0).
+	 * @return element which is at index i
+	 * @throws IndexOutOfBoundsException exception
+	 */
 	@Override
 	public E get(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		int index = 0;
+		Node<E> temp = head;
+
+		if (size == 0){
+			throw new ListEmptyException();
+		}
+		// Check whether index is out of size or not
+		if (i < 0 || i > (size - 1)){
+			throw new IndexOutOfBoundsException();
+		}
+		// Traversing to ith node at
+		while(index != i) {
+			temp = temp.getNext();
+			index++;
+		}
+
+		return temp.getElement();
 	}
 
+	/**
+	 * Method to add an element at index i
+	 * @param i index
+	 * @param e Element to be added
+	*/
 	@Override
 	public void add(int i, E e) {
-		// TODO Auto-generated method stub
-
+		int index = 0;
+		Node<E> temp = head;
+		Node<E> previous = null;
+		// Check whether index is out of size or not
+		if (i < 0 ||  i > (size - 1)) {
+			throw new IndexOutOfBoundsException();
+		}
+		// Traversing to correct node at index i
+		while(index != i) {
+			previous = temp;
+			temp = temp.getNext();
+			index++;
+		}
+		// Inserting new element at correct position
+		// When adding at the head
+		if( previous == null ) {
+			addFirst(e);
+		} else {
+			size++;
+			Node<E> n = new Node<>(e, temp.getNext());
+			temp.setNext(n);
+		}
 	}
 
+	/**
+	 * Method to remove element at index i
+	 * @param i index
+	 * @return Element being removed
+	 */
 	@Override
 	public E remove(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		int index = 1;
+		Node<E> temp = head;
+		Node<E> previous = null;
+
+		if (i < 0 || i > (size - 1)) {
+			throw new IndexOutOfBoundsException();
+		}
+		size--;
+		while (index != i) {
+			previous = temp;
+			temp = temp.getNext();
+			index++;
+		}
+
+		previous.setNext(temp.getNext());
+		return temp.getElement();
 	}
 
+	/**
+	 * Private class which implements Iterator class and
+	 * is used as iterator for singly linked list.
+	 */
+	private class ListIterator implements Iterator<E> {
+		// Private variable
+		Node<E> curr;
+
+		// Constructor
+		public ListIterator() {
+			curr = head;
+		}
+		// Overridden methods
+		public boolean hasNext() {
+			return curr.getNext() != null;
+		}
+		@Override
+		public E next() {
+			E res = curr.getElement();
+			curr = curr.getNext();
+			return res;
+		}
+	}
+
+	/**
+	 * Method which returns iterator for linked list;
+	 * @return new Iterator which is used for iterating linked list.
+	 */
 	@Override
 	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ListIterator();
 	}
 
+	/**
+	 * Method that returns size of linked list
+	 * @return int value
+	 */
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
-	}	
-	
+		return size;
+	}
 
+
+	/**
+	 * Method which removes first element
+	 * @return Removed element
+	 * @throws ListEmptyException when linked list is empty
+	 */
 	@Override
 	public E removeFirst() {
-		// TODO Auto-generated method stub
-		return null;
+		if(size == 0)
+			throw new ListEmptyException();
+		Node<E> temp = head;
+		head = head.getNext();
+		size--;
+		return temp.getElement();
 	}
 
+	/**
+	 * Method which removes last element
+	 * @return Removed element
+	 * @throws ListEmptyException when linked list is empty
+	 */
 	@Override
 	public E removeLast() {
-		// TODO Auto-generated method stub
-		return null;
+		if(size == 0)
+			throw new ListEmptyException();
+		Node<E> temp = head;
+		Node<E> previous = null;
+		while(temp.getNext() != null) {
+			previous = temp;
+			temp = temp.getNext();
+		}
+
+		if(previous != null ) {
+			previous.setNext(null);
+		} else {
+			head = previous;
+		}
+		size--;
+		return temp.getElement();
 	}
 
+	/**
+	 * Method which adds new element at first position
+	 * @param e Element to be added
+	 */
 	@Override
 	public void addFirst(E e) {
-		head = new Node<E>(e, head);   // Create & Link a New Node
+		head = new Node<>(e, head);   // Create & Link a New Node
 		size++;
-		// TODO Auto-generated method stub
-		
 	}
 
+	/**
+	 * Method which adds new element at last position
+	 * @param e Element to be added.
+	 */
 	@Override
 	public void addLast(E e) {
-		Node<E> newest = new Node<E>(e, null); // Node will be the tail
-		Node<E> last = head;
+		Node<E> newNode = new Node<>(e, null);
+		Node<E> temp = head;
 
-		if(last == null) {
-			head = newest;
+		if(temp == null) {
+			head = newNode;
 		} else {
-			while (last.getNext()!=null) {  // Advance to the last node
-				last = last.getNext();
+			while (temp.getNext() != null) {
+				temp = temp.getNext();
 			}
-			last.setNext(newest);  // New Node After Existing Tail
+			temp.setNext(newNode);
 		}
 		size++;
-
-		// TODO Auto-generated method stub
 	}
-	
+
+	/**
+	 * Method which provides string for viewing the linked list.
+	 * @return String containing linked list information
+	 */
+	@Override
+	public String toString() {
+		Node<E> temp = head;
+		StringBuilder resultBuilder = new StringBuilder();
+		while(temp != null) {
+			resultBuilder.append(temp.getElement()).append(" ");
+			temp = temp.getNext();
+		}
+		String result = resultBuilder.toString();
+		result = result.substring(0, result.length() - 1);
+		return result;
+	}
+
 	public static void main(String[] args) {
 		String[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-		SinglyLinkedList<String> sll = new SinglyLinkedList<String>();
+		SinglyLinkedList<String> sll = new SinglyLinkedList<>();
 		for (String s : alphabet) {
 			sll.addFirst(s);
 			sll.addLast(s);
