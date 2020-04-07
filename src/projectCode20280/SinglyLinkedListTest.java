@@ -51,9 +51,10 @@ public class SinglyLinkedListTest {
         SinglyLinkedList<String> temp = new SinglyLinkedList<>();
         temp.addFirst("Dahiya");
         temp.add(0,"Ronit");
+        temp.add(1,"Working");
         System.out.println(temp);
         assertEquals(temp.removeLast(), "Dahiya");
-        assertEquals(temp.removeLast(), "Ronit");
+        assertEquals(temp.removeLast(), "Working");
     }
 
     @Test

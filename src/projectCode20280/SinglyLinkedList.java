@@ -101,8 +101,8 @@ public class SinglyLinkedList<E> implements projectCode20280.List<E> {
 			addFirst(e);
 		} else {
 			size++;
-			Node<E> n = new Node<>(e, temp.getNext());
-			temp.setNext(n);
+			Node<E> n = new Node<>(e, temp);
+			previous.next = n;
 		}
 	}
 
