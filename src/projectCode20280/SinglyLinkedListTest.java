@@ -6,7 +6,7 @@ import org.junit.rules.ExpectedException;
 
 /**
  * Junit Test cases for Singly Linked List.
- * Each test case name is scenario being teste
+ * Each test case name is scenario being tested.
  */
 public class SinglyLinkedListTest {
 
@@ -39,6 +39,15 @@ public class SinglyLinkedListTest {
     }
 
     @Test
+    public void testGetOnWrongIndex() {
+        exception.expect(IndexOutOfBoundsException.class);
+        SinglyLinkedList<String> temp = new SinglyLinkedList<>();
+        temp.addFirst("Dahiya");
+        temp.add(0,"Ronit");
+        temp.get(3);
+    }
+
+    @Test
     public void testAddElementAtWrongIndex() {
         exception.expect(IndexOutOfBoundsException.class);
         SinglyLinkedList<String> temp = new SinglyLinkedList<>();
@@ -52,7 +61,6 @@ public class SinglyLinkedListTest {
         temp.addFirst("Dahiya");
         temp.add(0,"Ronit");
         temp.add(1,"Working");
-        System.out.println(temp);
         assertEquals(temp.removeLast(), "Dahiya");
         assertEquals(temp.removeLast(), "Working");
     }
@@ -64,6 +72,16 @@ public class SinglyLinkedListTest {
         temp.addFirst("Ronit");
         temp.add(0,"Dahiya");
         temp.remove(2);
+    }
+
+    @Test
+    public void testRemoveAtRightIndex() {
+        SinglyLinkedList<String> temp = new SinglyLinkedList<>();
+        temp.addFirst("Ronit");
+        temp.add(0,"Dahiya");
+        temp.addLast("Working");
+        temp.remove(1);
+        assertEquals(temp.get(1), "Working");
     }
 
     @Test
@@ -99,6 +117,8 @@ public class SinglyLinkedListTest {
         temp.removeLast();
         assertEquals(temp.get(0), "Working");
         assertEquals(temp.size(), 1);
+        temp.removeLast();
+        assertEquals(temp.size(), 0);
     }
 
     @Test

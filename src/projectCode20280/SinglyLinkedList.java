@@ -113,7 +113,7 @@ public class SinglyLinkedList<E> implements projectCode20280.List<E> {
 	 */
 	@Override
 	public E remove(int i) {
-		int index = 1;
+		int index = 0;
 		Node<E> temp = head;
 		Node<E> previous = null;
 
